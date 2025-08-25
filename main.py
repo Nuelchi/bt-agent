@@ -282,9 +282,10 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Initialize components with OpenRouter API key
-OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY = "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"
 
-translator = StrategyTranslator(api_key=OPENROUTER_API_KEY)
+# Initialize translator with the new API key
+translator = StrategyTranslator(api_key="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")
 data_fetcher = DataFetcher()
 
 class BacktestRequest(BaseModel):
@@ -388,6 +389,9 @@ async def backtest_strategy(request: BacktestRequest):
         # Compile DSL to backtesting.py code
         logger.info("Compiling DSL to backtesting.py code")
         code = compile_btp(dsl)
+        
+        # Debug: Log the generated code
+        logger.info(f"Generated code:\n{code}")
         
         # Run backtest with backtrader (more robust than backtesting.py)
         logger.info(f"Running backtest with backtrader, initial capital: {request.initial_capital}")
